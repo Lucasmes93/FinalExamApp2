@@ -1,5 +1,6 @@
 package com.example.finalexamapp2
 
+import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.espresso.Espresso.onView
@@ -13,10 +14,22 @@ import org.junit.runner.RunWith
 class MainActivityTest {
 
     @get:Rule
-    val activityRule = ActivityScenarioRule(MainActivity::class.java)
+    val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
     fun helloText_isDisplayed() {
+        // Vérifie que le TextView avec l'ID helloText est affiché
         onView(withId(R.id.helloText)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun mainActivity_launchesSuccessfully() {
+        val scenario = activityScenarioRule.scenario
+        scenario.onActivity { activity ->
+            println("Activité actuelle : ${activity.localClassName}")
+        }
+        assert(scenario.state.isAtLeast(Lifecycle.State.RESUMED)) {
+            "L'activité n'a pas atteint l'état RESUMED"
+        }
     }
 }
