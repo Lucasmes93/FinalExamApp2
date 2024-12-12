@@ -1,27 +1,43 @@
-package com.example.finalexamapp2
-
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.finalexamapp2.R
 
 class MainActivity : AppCompatActivity() {
-
-    private val TAG = "MainActivity" // Tag pour les logs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Étape 1 : Log au démarrage
-        Log.d(TAG, "Étape 1 : Application démarrée - onCreate exécuté")
+        val usernameField = findViewById<EditText>(R.id.username)
+        val passwordField = findViewById<EditText>(R.id.password)
+        val loginButton = findViewById<Button>(R.id.loginButton)
+        val welcomeMessage = findViewById<TextView>(R.id.welcomeMessage)
+        val errorMessage = findViewById<TextView>(R.id.errorMessage)
 
-        // Étape 2 : Simuler une exception pour débogage
-        try {
-            val list = listOf("A", "B", "C")
-            val item = list[3] // Provoque une IndexOutOfBoundsException
-            Log.d(TAG, "Élément récupéré : $item") // Ajout d'un log pour utiliser la variable
-        } catch (e: IndexOutOfBoundsException) {
-            Log.e(TAG, "Étape 2 : Erreur détectée - Index hors limites", e)
+        // Initialement, le message de bienvenue et le message d'erreur sont cachés
+        welcomeMessage.visibility = View.GONE
+        errorMessage.visibility = View.GONE
+
+        loginButton.setOnClickListener {
+            val username = usernameField.text.toString()
+            val password = passwordField.text.toString()
+
+            if (username.isEmpty() || password.isEmpty()) {
+                errorMessage.visibility = View.VISIBLE
+                welcomeMessage.visibility = View.GONE
+            } else if (username == "testuser" && password == "password123") {
+                welcomeMessage.text = "Bienvenue, $username!"
+                welcomeMessage.visibility = View.VISIBLE
+                errorMessage.visibility = View.GONE
+            } else {
+                errorMessage.text = "Nom d'utilisateur ou mot de passe incorrect"
+                errorMessage.visibility = View.VISIBLE
+                welcomeMessage.visibility = View.GONE
+            }
         }
     }
 }

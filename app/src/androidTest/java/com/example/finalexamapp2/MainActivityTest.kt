@@ -1,5 +1,6 @@
 package com.example.finalexamapp2
 
+import MainActivity
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.ext.junit.rules.ActivityScenarioRule
